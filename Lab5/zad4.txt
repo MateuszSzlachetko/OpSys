@@ -1,0 +1,5 @@
+napis który wyświetlił się w zmodyfikowanym programie, zawierał już nazwę użytkownika. W historii nie było
+widocznego wywołania funkcji getenv. strace wyświetlił jedynie już całą wczytaną informację(wywołania systemowe)
+
+ltrace natomiast zawierał wszystkie wywoałania po kolei 
+ltrace jest bardzo podobny do strace, ale umożliwia śledzenie wywołań funkcji bibliotecznych

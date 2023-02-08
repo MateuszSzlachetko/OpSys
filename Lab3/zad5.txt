@@ -1,0 +1,8 @@
+Po utworzeniu potoku
+./zad4.sh | cat | cat
+
+na zdjęciu zad5.png widzimy, że pokrewieństwo 
+potokowanych procesów to wspólne PPID,
+zatem procesy są potomkami tego samego rodzica-
+w tym wypadku powłowki która je wywołała jak widać
+na zdjęciu 5_2.png

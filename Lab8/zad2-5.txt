@@ -1,0 +1,59 @@
+Zad 2 
+
+Kolejność wyświetlanych wyjść poszczególnych wątków jest
+zawsze inna, wynika to z innego co wykonanie programu kolejkowania wykonywania ich
+przez planistę.
+
+
+Zad 3
+
+argument funkcji pthread_create
+Przekazywany pojedynczy argument, czy cała struktura
+są widoczne z perspektywy wątku jako zmienne globalne.
+Przekazujemy np id danego elementu w tablicy do odwołania 
+w funkcji wątku, bądź wskaźnik na strukturę
+który następnie jest rozkładany wewnątrz funkcji i wyciągane
+są z niego informacje.
+
+
+Błędem w programie bug3 jest przekazanie adresu zmiennej iteracyjnej, przez co 
+przy wywołaniu funkcji jest ona już zinkrementowana do końca
+na wartość 8. W celu naprawy wystarczy przekazać jej
+chwilową wartość i zrzutować ją w kodzie funkcji.
+
+taskid = (long)threadid; // zmiana
+...
+rc = pthread_create(&threads[t], NULL, PrintHello, (void *)t); // zmiana
+
+Zad 4
+
+Po stworzeniu wątków funkcja main doszła do końca wyświetlając
+napis Main: Done. ale nie wywołano funkcji pthread_exit
+przez co nie zapewniono że wątki wykonały się do końca.
+i w terminalu komunikat wątku ostatniego został wyświetlony
+po zakończeniu już maina, ale obliczenia nie dotarły do końca.
+Po dopisaniu funkcji pthread_exit przed zakończeniem maina
+program działa poprawnie
+
+...
+printf("Main: Done.\n");
+
+  pthread_exit(NULL); // zmiana
+}
+
+
+Zad 5
+
+Stos utworzony na potrzebę alokacji tablicy był za mały przez co
+powodował zrzut pamięci. W bug2fix potrzebny rozmiar stosu
+został bezpośrednio określony w kodzie z dodatkowym zapasem, przez
+co wątki wykonują się bez błędu. Dodatkowo w bug2 stos nie był przekazywany
+jako atrybut do tworzonego wątku.
+
+stacksize = ARRAY_SIZE * sizeof(double) + 100000;
+  pthread_attr_setstacksize(&attr, stacksize);
+  pthread_attr_getstacksize(&attr, &stacksize);
+  printf("Thread stack size = %li bytes (hint, hint)\n", stacksize);
+  for (t = 0; t < NTHREADS; t++)
+  {
+    rc = pthread_create(&threads[t], &attr, Hello, (void *)t);

@@ -1,0 +1,4 @@
+SIGSEGV
+A segfault basically means you did something bad with pointers. 
+wyszliśmy z czytaniem poza zakres naszego char*
+strace pokazał że wczytaliśmy 1024 znaków a powinniśmy 22. po ograniczeniu petli program działa poprawnie

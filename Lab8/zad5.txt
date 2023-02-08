@@ -1,0 +1,13 @@
+Stos utworzony na potrzebę alokacji tablicy był za mały przez co
+powodował zrzut pamięci. W bug2fix potrzebny rozmiar stosu
+został bezpośrednio określony w kodzie z dodatkowym zapasem, przez
+co wątki wykonują się bez błędu. Dodatkowo w bug2 stos nie był przekazywany
+jako atrybut do tworzonego wątku.
+
+stacksize = ARRAY_SIZE * sizeof(double) + 100000;
+  pthread_attr_setstacksize(&attr, stacksize);
+  pthread_attr_getstacksize(&attr, &stacksize);
+  printf("Thread stack size = %li bytes (hint, hint)\n", stacksize);
+  for (t = 0; t < NTHREADS; t++)
+  {
+    rc = pthread_create(&threads[t], &attr, Hello, (void *)t);

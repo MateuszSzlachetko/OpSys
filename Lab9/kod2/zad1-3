@@ -1,0 +1,64 @@
+Zadanie 1
+a)
+Program nie tworzy nowych wątków. Postawione zadanie jest skonstruowane w taki sposób, że
+program mółgby utworzyć kilka wątków do jego realizacji. Na moim komputerze wykonanie zajęło około
+5000 mikrosekund, a czas utworzenia nowego wątku to od 15-50 mikrosekund, więc narzut czasowy
+na utworzenie ich na pewno by się zrekompensował, a samo utworzenie wątków i wykorzystanie ich
+przyspieszyłoby pracę programu.
+
+b)
+W programie bug6.c obliczana globalna suma nie jest prawidłowa i nie jest zawsze taka sama. Wynika to 
+z tego, że wątki operują na globalnej zmiennej suma i w swojej funkcji dodają do niej wyliczoną przez
+siebie wartość. Może to spowodować sytuację w której dany wątek odczyta wartość sumy będzie chciał
+wykonać na niej operacje dodania wartości i zapisu, a w tym momencie inny wątek też przeczytał i zapisał,
+to wtedy poprzedni wątek nadpisze już nowo wyliczoną sumę jej starszą wartością. Po prostu występują
+wyścigi. Żeby zabezpieczyć program przed taką sytacją wystarczy nakładać muteks na sekcję krytyczną funkcji
+, która nie pozowoli na wyścigi wątków.
+
+      pthread_mutex_lock(&mutex);
+      sum += (a[i] * b[i]);
+      pthread_mutex_unlock(&mutex);
+
+
+Zadanie 2
+
+W programie bug6 cały czas operujemy na zmiennej globalnej, a oba programy w przykładzie najpierw wykonują
+swoje operacje, na swojej lokalnej zmiennej, a potem dopiero blokują muteks i przypisują wartość do
+globalnej zmiennej. Trudno porównać oba programy, przez to, że wykonują one końcowo zupełnie inne operacje,
+jedyne co można powiedzieć to to, że program w którym nie definiujemy bardzo dużych tablic, czyli dotprod_mutex.c 
+będzie mniej zasobożerny. Przy wywołaniu wychodzi też na to, że wykonuje się on szybciej, jednak
+nie jest to wystarczający dowód, ponieważ oba programy liczą i wykonują inne rzeczy.
+
+Zadanie 3
+
+a)
+Dwa wątki wykonują operacje zwiększania zmiennej blokowanej muteksem, a trzeci wątek czeka, aż
+zostanie przesłany sygnał spełnienia warunku(osiągnięcia pewnej wartości tej zmiennej).
+Widzimy, że po osiągnięciu tej wartości wątek, który ją ustawił wysyła sygnał i trzeci wątek, obserwujący
+wukonuje dalszą operację.(po odczytaniu ze zmiennej warunkowej, że został spełniony warunek)
+
+b)
+Błąd polega na tym, że 4 wątki oczekują na sygnał, a zostaje wysłany tylko jeden. Żeby to naprawić, 
+musiałyby zostać wysłane 4 sygnały, bądź wątek który otrzyma sygnał pierwszy, wysyła sygnały pozostałym 
+wątkom.
+
+rozwiązanie np. 
+if (count == COUNT_LIMIT)
+    {
+      pthread_cond_signal(&count_threshold_cv);
+      pthread_cond_signal(&count_threshold_cv);
+      pthread_cond_signal(&count_threshold_cv);
+      pthread_cond_signal(&count_threshold_cv);
+      ...
+
+c)
+Wątek oczekujący za późno się uruchamia, przez co przegapia sygnał. Wynika to z tego, że wcześniej
+wykonuje jakieś operacje. Żeby temu zapobiec, wątek nie powinien czekać na sygnał, jeżeli inne wątki
+zakończyły pracę.
+while (count < ITERATIONS * (NUM_THREADS - 1))
+  {
+    pthread_cond_wait(&count_condvar, &count_mutex);
+    printf("sub1: thread=%ld Condition variable signal received.", tid);
+  }
+Powinien wtedy sprawdzać ten warunek w pętli, żeby nie zablokować się oczekując na sygnał, który nie
+zostanie wysłany.

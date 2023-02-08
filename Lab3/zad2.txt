@@ -1,0 +1,3 @@
+jak widać po utworzeniu 3 kolejnych procesów terminali i
+po zabiciu środkowego ostatni proces został zaadoptowany przez init, a pierwszy
+pozostał bez zmian

@@ -1,0 +1,14 @@
+Argument do wywołanej przez wątek funkcji przekazuje się przez ostatni
+argument funkcji pthread_create
+Przekazywany pojedynczy argument, czy cała struktura
+są widoczne z perspektywy wątku jako zmienne globalne.
+Przekazujemy np id danego elementu w tablicy do odwołania 
+w funkcji wątku, bądź wskaźnik na strukturę
+który następnie jest rozkładany wewnątrz funkcji i wyciągane
+są z niego informacje.
+
+
+Błędem w programie bug3 jest przekazanie adresu zmiennej iteracyjnej, przez co 
+przy wywołaniu funkcji jest ona już zinkrementowana do końca
+na wartość 8. W celu naprawy wystarczy przekazać jej
+chwilową wartość i zrzutować ją w kodzie funkcji.

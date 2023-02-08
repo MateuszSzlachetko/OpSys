@@ -1,0 +1,14 @@
+ps -f wyświetla aktywne procesy użytkownika w długim formacie, w sposób szczegółowy
+ps -l wyświetla aktywne procesy użytkownika w długim formacie BSD
+ps -e
+ps -ef wyświetlają wszystkie procesy
+ps -p pid wyświetla proces po identyfikatorze pid
+ps -u wyświetla procesy użytkownika
+ps -t wyświetla procesy ze względu na terminal
+
+W chwili przykładowego wywołania ps na serwerze diablo istniały
+2 procesy mojego użytkownika
+
+pgrep sshd | wc -l
+
+dla przykładowego wywołania istniało 9 procesów na serwerze

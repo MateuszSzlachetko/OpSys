@@ -1,0 +1,7 @@
+Po stworzeniu wątków funkcja main doszła do końca wyświetlając
+napis Main: Done. ale nie wywołano funkcji pthread_exit
+przez co nie zapewniono że wątki wykonały się do końca.
+i w terminalu komunikat wątku ostatniego został wyświetlony
+po zakończeniu już maina, ale obliczenia nie dotarły do końca.
+Po dopisaniu funkcji pthread_exit przed zakończeniem maina
+program działa poprawnie

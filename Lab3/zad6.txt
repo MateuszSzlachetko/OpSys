@@ -1,0 +1,9 @@
+uruchomić 4 terminale w nowym pulpicie
+w dwóch poleceniem cat FIFO otworzyć koniec czytający potok
+w dwóch poleceniem cat > FIFO otworzyć koniec piszący lub skrypt piszący do potoku
+
+komunikaty odbierane są naprzemiennie, jednak pisząc z jendego końca i skryptu, przechodzą one losowo
+najpierw potoki zawisają na funkcji open
+potem czekają na dane póki któryś z końców piszących jest otwarty
+po zamknięciu obu, kończą pracę
+

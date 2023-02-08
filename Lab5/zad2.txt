@@ -1,0 +1,5 @@
+do wyświetlenia napisu została użyta funkcja write()
+
+Funkcja systemowa do wyświetlania napisów
+
+printf jest na nią "tłumaczony"?

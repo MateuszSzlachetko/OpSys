@@ -1,0 +1,5 @@
+Za pomocą polecenia
+ulimit -a 
+wyświetlamy listę ustawionych limitów i z flagą
+ulimit -u NUM ustawiamy nowy limit ilości procesów
+edit coś nie działa

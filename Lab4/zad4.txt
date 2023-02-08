@@ -1,0 +1,1 @@
+https://unix.stackexchange.com/questions/85364/how-can-i-check-what-signals-a-process-is-listening-to

@@ -1,0 +1,2 @@
+strace -e trace=open,openat,close,read,write,connect,accept
+

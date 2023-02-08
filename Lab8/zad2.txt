@@ -1,0 +1,3 @@
+Kolejność wyświetlanych wyjść poszczególnych wątków jest
+zawsze inna, wynika to z innego co wykonanie programu kolejkowania wykonywania ich
+przez planistę.
